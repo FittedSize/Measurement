@@ -5,6 +5,7 @@ pip install flake8
 cat > setup.cfg << eof
 [flake8]
 extend-ignore = E203
+max-line-length = 88
 exclude = 
 	.git,
 	__pycache__,
