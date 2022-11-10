@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = False
 
 ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS.extend(os.getenv("ALLOWED_HOSTS", "localhost").split(","))
 
 # Application definition
 
@@ -119,6 +119,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_DIR = Path.joinpath(BASE_DIR, "static")
+
+STATICFILES_DIRS = [STATIC_DIR]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
