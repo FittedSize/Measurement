@@ -6,7 +6,7 @@ cat > setup.cfg << eof
 [flake8]
 extend-ignore = E203
 max-line-length = 88
-exclude = 
+exclude =
 	.git,
 	__pycache__,
 	docs/source/conf.py,old,build,dist,

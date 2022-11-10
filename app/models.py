@@ -1,5 +1,13 @@
 from django.db import models
 from .utility import validate_positive
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    INDIVIDUAL = "IN"
+    BUSINESS = "BU"
+    ACCOUNTS = [(INDIVIDUAL, "Individual"), (BUSINESS, "Business")]
+    account_type = models.CharField(choices=ACCOUNTS, max_length=2, default=INDIVIDUAL)
 
 
 class Trouser(models.Model):
@@ -35,4 +43,4 @@ class Trouser(models.Model):
     )
 
     def __str__(self):
-        return f"Trouser lenght: {self.length}"
+        return f"Trouser length: {self.length}"
