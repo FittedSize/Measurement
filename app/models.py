@@ -105,24 +105,18 @@ class Trouser(models.Model):
         return f"Trouser length: {self.length}"
 
 
-class Profile(models.Model):
-    username = models.CharField(max_length=50, blank=False)
-    email = models.EmailField(blank=False)
+class Record(models.Model):
+    owner = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Profile of {self.username.title()}"
+        return f"{self.owner.username.title()} Record"
 
 
 class Measurement(models.Model):
-    trouser = models.ForeignKey(Trouser, on_delete=models.CASCADE)
-    shirt = models.ForeignKey(Shirt, on_delete=models.CASCADE)
-
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-
-
-class Record(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    customers = models.ManyToManyField(Profile, blank=True)
+    email = models.EmailField(unique=True)
+    trouser = models.OneToOneField(Trouser, on_delete=models.CASCADE, null=True)
+    shirt = models.OneToOneField(Shirt, on_delete=models.CASCADE)
+    record = models.ForeignKey(Record, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Record of {self.owner.username.title()}"
+        return f"Measurement: {self.email}"
