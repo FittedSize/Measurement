@@ -1,0 +1,67 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+
+{% block header %}
+  <!-- Header not needed here -->
+{% endblock %}
+
+{% block main %}
+<div class="text-center">
+  <a class="rounded-circle bg-dark d-inline-block p-2" href="{% url home_page %}" >
+    <img src="{% static 'app/images/measureit_logo.png' %}" height="90" />
+  </a>
+</div>
+
+
+<form>
+  <!-- Email input -->
+  <div class="row justify-content-center mt-5  align-items-center">
+    <div class="col-4">
+      <div class="form-outline mb-4">
+        <input type="email" id="form2Example1" class="form-control" />
+        <label class="form-label" for="form2Example1">Email address</label>
+      </div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <input type="password" id="form2Example2" class="form-control" />
+        <label class="form-label" for="form2Example2">Password</label>
+      </div>
+    </div>
+
+
+    <!-- 2 column grid layout for inline styling -->
+    <div class="row mb-4 justify-content-center align-items-center">
+      <div class=" col-4 d-flex">
+        <!-- Checkbox -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+          <label class="form-check-label" for="form2Example31"> Remember me </label>
+        </div>
+        <div class="ms-auto">
+          <!-- Simple link -->
+          <a href="#!">Forgot password?</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Submit button -->
+    <div class="row justify-content-center align-items-center">
+      <button type="button" class="btn btn-primary btn-block mb-4 col-lg-2 col-sm-4 ">Sign in</button>
+    </div>
+
+
+  </div>
+
+  <!-- Register buttons -->
+  <div class="text-center">
+    <p>Not a member? <a href="#!">Register</a></p>
+    <p>or sign up with:</p>
+    <button type="button" class="btn btn-link btn-block border-primary btn-floating mx-1 col-lg-2 col-sm-4">
+      <i class="fab fa-google"></i>
+    </button>
+
+  </div>
+</form>
+{% endblock %}

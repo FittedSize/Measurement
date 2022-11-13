@@ -132,3 +132,4 @@ migrations
 requirements_dev.txt
 pyproject.toml
 .pre-commit-config.yaml
+geckodriver-v0.32.0-win-aarch64 (1).zip

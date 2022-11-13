@@ -1,6 +1,10 @@
 from django.test import TestCase
 from .models import Trouser
 from django.core.exceptions import ValidationError
+from django.urls import resolve
+from django.http import HttpRequest
+from .views import home
+import re
 
 
 class TestTrouser(TestCase):
@@ -23,3 +27,16 @@ class TestTrouser(TestCase):
         data = Trouser(**self.invalid_data)
         with self.assertRaises(ValidationError):
             data.full_clean()
+
+
+class HomePageTest(TestCase):
+    def test_root_resolve_to_index(self):
+        found = resolve("/")
+        self.assertEqual(found.func, home)
+
+    def test_measurement_in_homepage(self):
+        request = HttpRequest()
+        response = home(request)
+        content = response.content.decode("utf8")
+        pattern = "[Mm]easurement"
+        self.assertRegexpMatches(content, pattern)

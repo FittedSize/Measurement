@@ -1,6 +1,7 @@
 from django.db import models
 from .utility import validate_positive
 from django.contrib.auth.models import AbstractUser
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class User(AbstractUser):
@@ -114,6 +115,7 @@ class Record(models.Model):
 
 class Measurement(models.Model):
     email = models.EmailField(unique=True)
+    phone_number = PhoneNumberField(blank=False)
     trouser = models.OneToOneField(Trouser, on_delete=models.CASCADE, null=True)
     shirt = models.OneToOneField(Shirt, on_delete=models.CASCADE)
     record = models.ForeignKey(Record, on_delete=models.CASCADE)
