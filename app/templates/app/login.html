@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block main %}
-<div class="text-center">
+<div class="text-center mt-5">
   <a class="rounded-circle bg-dark d-inline-block p-2" href="{% url home_page %}" >
     <img src="{% static 'app/images/measureit_logo.png' %}" height="90" />
   </a>
@@ -16,7 +16,7 @@
 <form>
   <!-- Email input -->
   <div class="row justify-content-center mt-5  align-items-center">
-    <div class="col-4">
+    <div class="col-lg-4 col-sm-6 col-xs-10">
       <div class="form-outline mb-4">
         <input type="email" id="form2Example1" class="form-control" />
         <label class="form-label" for="form2Example1">Email address</label>
@@ -32,7 +32,7 @@
 
     <!-- 2 column grid layout for inline styling -->
     <div class="row mb-4 justify-content-center align-items-center">
-      <div class=" col-4 d-flex">
+      <div class="col-lg-4 col-sm-6 d-flex">
         <!-- Checkbox -->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
