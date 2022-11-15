@@ -4,7 +4,6 @@ from django.core.exceptions import ValidationError
 from django.urls import resolve
 from django.http import HttpRequest
 from .views import home
-import re
 
 
 class TestTrouser(TestCase):
