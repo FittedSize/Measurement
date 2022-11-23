@@ -33,6 +33,9 @@ DEBUG = False if os.getenv("DEBUG", "False") == "False" else True
 ALLOWED_HOSTS = []
 ALLOWED_HOSTS.extend(os.getenv("ALLOWED_HOSTS", "localhost").split(","))
 
+CSRF_TRUSTED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS.extend(os.getenv("TRUSTED_ORIGINS", "http://127.0.0.1").split(","))
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,11 +47,30 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "app",
     "phonenumber_field",
-    "fontawesomefree",
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': Path.joinpath(BASE_DIR,'debug.log'),
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -77,6 +99,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "measure_it.wsgi.application"
 
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+
+# used by whitenoise
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -90,6 +117,8 @@ DATABASES = {
 }
 
 if not DEBUG:
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
     # update database for production
     DATABASES = {
         "default": {
@@ -101,6 +130,8 @@ if not DEBUG:
             "PORT": os.getenv("DB_PORT"),
         }
     }
+
+    CONN_MAX_AGE = 500
 
 AUTH_USER_MODEL = "app.User"
 
@@ -141,7 +172,7 @@ PHONENUMBER_DEFAULT_REGION = "NG"
 
 STATIC_URL = "static/"
 STATIC_DIR = Path.joinpath(BASE_DIR, "static")
-
+STATIC_ROOT = Path.joinpath(BASE_DIR, "static_files")
 STATICFILES_DIRS = [STATIC_DIR]
 
 # Default primary key field type
