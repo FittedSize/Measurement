@@ -13,21 +13,29 @@
     <!-- contents of the head come here-->
     {% endblock %}
   </head>
-  <body>
-    {% block header %}
-    {% include 'app/navbar.html' %}
-    {% endblock %}
+  <body class="d-flex h-100">
+    <div class="container h-100 w-100 g-0">
+      <div>
+        {% block header %}
+        {% include 'app/navbar.html' %}
+        {% endblock %}
+      </div>
+      <div class="">
+        {% block main %}
+        <!-- contents of the head come here-->
+        {% endblock %}
+      </div>
+      <div class="">
+        {% block footer %}
+        <!-- contents of the footer come here-->
+        {% endblock %}
+      </div>
 
-    <div class="container">
-      {% block main %}
-      <!-- contents of the head come here-->
-      {% endblock %}
     </div>
 
 
-    {% block footer %}
-    <!-- contents of the footer come here-->
-    {% endblock %}
+
+
     <script src="{% static 'fontawesomefree/js/fontawesome.js' %}"></script>
     <script src="{% static 'fontawesomefree/js/solid.js' %}"></script>
     <script src="{% static 'fontawesomefree/js/brands.js' %}"></script>

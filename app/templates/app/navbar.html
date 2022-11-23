@@ -16,7 +16,7 @@
     <div class=" collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav mx-auto ">
         <li class="nav-item">
-          <a class="nav-link mx-2 active" aria-current="page" href="{% url home_page %}">Home</a>
+          <a class="nav-link mx-2 {% if is_home %} active {% endif %}" aria-current="page" href="{% url home_page %}">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link mx-2" href="#">Products</a>
@@ -28,22 +28,33 @@
         </li>
         {% if not user.is_authenticated %}
         <li class="nav-item" id="login">
-          <a class="nav-link mx-2" href="{% url login_page %}">Login <i class="fa-solid fa-right-to-bracket"></i></a>
+          <a class="nav-link  mx-2" href="{% url login_page %}">
+            <button class="btn btn-primary">
+              Login <i class="fa-solid fa-right-to-bracket"></i>
+            </button>
+            </a>
+        </li>
+        {% else %}
+        <li class="nav-item" id="logout">
+          <form method="POST" action="{% url logout_page %}">
+            <a href="" class="nav-link">
+              <button class="btn btn-danger mx-2">
+                Logout <i class="fa-solid fa-right-from-bracket"></i>
+              </button>
+            </a>
+
+            {% csrf_token %}
+          </form>
         </li>
         {% endif %}
 
-        <li class="nav-item">
-
-          <a class="nav-link mx-2 btn-primary" href="#"><button class="btn btn-primary">Sign up for free</button></a>
-        </li>
         <li class="nav-item dropdown">
           <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Company
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="#">Blog</a></li>
-            <li><a class="dropdown-item" href="#">About Us</a></li>
-            <li><a class="dropdown-item" href="#">Contact us</a></li>
+            <li><a class="dropdown-item" href="{% url about_us %}">About Us</a></li>
+            <li><a class="dropdown-item" href="{% url contact_us %}">Contact us</a></li>
           </ul>
         </li>
       </ul>

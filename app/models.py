@@ -10,7 +10,7 @@ class User(AbstractUser):
     ACCOUNTS = [(INDIVIDUAL, "Individual"), (BUSINESS, "Business")]
     account_type = models.CharField(choices=ACCOUNTS, max_length=2, default=INDIVIDUAL)
 
-    REQUIRED_FIELDS = ["first_name", "last_name", "account_type"]
+    REQUIRED_FIELDS = ["first_name", "last_name", "account_type", "email"]
 
     @property
     def is_business(self):

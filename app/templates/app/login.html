@@ -12,20 +12,21 @@
   </a>
 </div>
 
+{% include 'app/notifications.html' %}
 
-<form>
+<form method="POST" action="{% url 'login_page' %}">
   <!-- Email input -->
   <div class="row justify-content-center mt-5  align-items-center">
     <div class="col-lg-4 col-sm-6 col-xs-10">
       <div class="form-outline mb-4">
-        <input type="email" id="form2Example1" class="form-control" />
-        <label class="form-label" for="form2Example1">Email address</label>
+        <input type="text" id="email" name="email" class="form-control" />
+        <label class="form-label" for="email">email</label>
       </div>
 
       <!-- Password input -->
       <div class="form-outline mb-4">
-        <input type="password" id="form2Example2" class="form-control" />
-        <label class="form-label" for="form2Example2">Password</label>
+        <input type="password" id="password" name="password" class="form-control" />
+        <label class="form-label" for="password">Password</label>
       </div>
     </div>
 
@@ -48,7 +49,7 @@
 
     <!-- Submit button -->
     <div class="row justify-content-center align-items-center">
-      <button type="button" class="btn btn-primary btn-block mb-4 col-lg-2 col-sm-4 ">Sign in</button>
+      <button type="submit" class="btn btn-primary btn-block mb-4 col-lg-2 col-sm-4 ">Sign in</button>
     </div>
 
 
@@ -63,5 +64,6 @@
     </button>
 
   </div>
+  {% csrf_token %}
 </form>
 {% endblock %}
