@@ -13,20 +13,20 @@
 </div>
 
 {% include 'app/notifications.html' %}
-
+<div class="container">
 <form method="POST" action="{% url 'login_page' %}">
   <!-- Email input -->
   <div class="row justify-content-center mt-5  align-items-center">
     <div class="col-lg-4 col-sm-6 col-xs-10">
-      <div class="form-outline mb-4">
-        <input type="text" id="email" name="email" class="form-control" />
-        <label class="form-label" for="email">email</label>
+      <div class="form-floating m-3">
+        <input type="text" id="email" name="email" class="form-control" placeholder="Email"/>
+        <label class="form-label text-secondary" for="email">Email</label>
       </div>
 
       <!-- Password input -->
-      <div class="form-outline mb-4">
-        <input type="password" id="password" name="password" class="form-control" />
-        <label class="form-label" for="password">Password</label>
+      <div class="form-floating m-3">
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" />
+        <label class="form-label text-secondary" for="password">Password</label>
       </div>
     </div>
 
@@ -57,7 +57,7 @@
 
   <!-- Register buttons -->
   <div class="text-center">
-    <p>Not a member? <a href="#!">Register</a></p>
+	  <p>Not a member? <a href="{% url 'register_user' %}">Register</a></p>
     <p>or sign up with:</p>
     <button type="button" class="btn btn-link btn-block border-primary btn-floating mx-1 col-lg-2 col-sm-4">
       <i class="fab fa-google"></i>
@@ -66,4 +66,5 @@
   </div>
   {% csrf_token %}
 </form>
+</div>
 {% endblock %}

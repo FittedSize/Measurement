@@ -1,0 +1,82 @@
+{% extends "app/layout.html" %}
+
+{% block title %}Registration Page{% endblock %}
+
+{% block main %}
+<div class="container h-100">
+<form method="POST" action="{% url 'register_user' %}">
+
+	{% include "app/notifications.html" %}
+	<div class="row justify-content-center align-items-center p-3">
+	<div class="form-floating col-sm-8 col-md-6 col-lg-3 p-1">
+		<input class="form-control" type="text" placeholder="Username" id="username" name="username" required/>
+		<label class="form-label text-secondary" for="username">Username
+		</label>
+	</div>
+	</div>
+	<div class="row justify-content-center align-items-center p-3">
+
+	<div class="form-floating col-sm-8 col-md-6 col-lg-3  p-1">
+		<input class="form-control" type="text" placeholder="First Name" id="first_name" name="first_name" required/>
+		<label class="form-label text-secondary" for="first_name">Firstname
+		</label>
+	</div>
+	</div>
+
+	<div class="row justify-content-center align-items-center p-3">
+
+	<div class="form-floating col-sm-8 col-md-6 col-lg-3  p-1">
+		<input class="form-control" type="text" placeholder="Last Name" id="last_name" name="last_name" required/>
+		<label class="form-label text-secondary" for="last_name">Lastname
+		</label>
+	</div>
+	</div>
+
+	<div class="row justify-content-center align-items-center p-3">
+	<div class="form-floating col-sm-8 col-md-6 col-lg-3 p-1">
+		<input class="form-control" type="email" placeholder="Email" id="email" name="email" required/>
+		<label class="form-label text-secondary" for="email">Email
+		</label>
+	</div>
+	</div>
+
+	<div class="row justify-content-center align-items-center p-3">
+	<div class="form-floating col-sm-8 col-md-6 col-lg-3 p-1">
+		<input class="form-control" type="password" placeholder="Password" id="password" name="password" required/>
+		<label class="form-label text-secondary" for="password">Password
+		</label>
+	</div>
+	</div>
+
+	<div class="row justify-content-center align-items-center p-3">
+	<div class="form-floating col-sm-8 col-md-6 col-lg-3 p-1">
+		<input class="form-control" type="password" placeholder="Confirm Password" id="confirm_password" name="confirm_password" required/>
+		<label class="form-label text-secondary" for="confirm_password">Confirm Password
+		</label>
+	</div>
+	</div>
+	{% csrf_token %}
+	<div class="row justify-content-center align-items-center p-3">
+	<div class="form-group col-sm-8 col-md-6 col-lg-3 p-1">
+		<label class="form-label text-secondary" for="confirm_password">Account Type
+		</label>
+		<select class="form-select"  id="caccount_type" name="account_type" required>
+		<option value="BU">Business</option>
+		<option value="IN">Individual</option>
+
+		</select>
+
+	</div>
+
+	</div>
+
+
+	<div class="row justify-content-center align-items-center p-3">
+	<div class="col-5 col-md-6">
+	<button class="btn btn-lg  btn-primary">Submit </button>
+	</div>
+	</div>
+
+</form>
+</div>
+{% endblock %}

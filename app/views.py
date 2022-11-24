@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .forms import LoginForm
+from .forms import LoginForm, UserCreationForm
 from .utility import get_error_list, authenticate_user
 
 
@@ -14,6 +14,7 @@ def get_data():
         contact_us="contact_us",
         about_us="about_us",
         logout_page="logout_page",
+        user_page="user_page",
         info=False,
         success=False,
         danger=False,
@@ -69,3 +70,24 @@ def about_us(request):
 def logout_page(request):
     logout(request)
     return redirect(reverse("home_page"))
+
+
+def register_user(request):
+    page_data = get_data()
+    page_data["form"] = UserCreationForm()
+
+    if request.method == "GET":
+        if request.user.is_authenticated:
+            return redirect(reverse("user_page"))
+
+        return render(request, "app/registration.html", context=page_data)
+    elif request.method == "POST":
+        data = request.POST
+        form = UserCreationForm(data)
+        if form.is_valid():
+            form.save()
+            page_data["success"] = "Registration SucessFull"
+
+            return render(request, "app/registration.html", context=page_data)
+        page_data["danger"] = get_error_list(form.errors)
+        return render(request, "app/registration.html", context=page_data)

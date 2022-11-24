@@ -18,7 +18,7 @@ def get_error_list(form_errors):
     error_list = []
     for _, value in json.loads(form_errors.as_json()).items():
         error_list.append(value[0]["message"])
-    return error_list
+    return list(set(error_list))
 
 
 def authenticate_user(email, password):
