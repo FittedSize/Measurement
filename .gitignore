@@ -136,3 +136,4 @@ geckodriver-v0.32.0-win-aarch64 (1).zip
 setup.sh
 functional_test.py
 setup_precommit.sh
+static_files/

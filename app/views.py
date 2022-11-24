@@ -5,26 +5,36 @@ from django.urls import reverse
 from .forms import LoginForm
 from .utility import get_error_list, authenticate_user
 
-data = dict(
-    login_page="login_page",
-    home_page="home_page",
-    contact_us="contact_us",
-    about_us="about_us",
-    logout_page="logout_page",
-)
+
+def get_data():
+    "Create initial Context data"
+    return dict(
+        login_page="login_page",
+        home_page="home_page",
+        contact_us="contact_us",
+        about_us="about_us",
+        logout_page="logout_page",
+        info=False,
+        success=False,
+        danger=False,
+        is_home=False,
+    )
 
 
 @login_required(login_url="/login_page")
 def user_page(request):
+    data = get_data()
     return render(request, "app/user_page.html", context=data)
 
 
 def home_page(request):
+    data = get_data()
     data["is_home"] = True
     return render(request, "app/index.html", context=data)
 
 
 def login_page(request):
+    data = get_data()
     if request.method == "GET":
         if request.user.is_authenticated:
             return redirect(reverse("home_page"))
@@ -47,10 +57,12 @@ def login_page(request):
 
 
 def contact_us(request):
+    data = get_data()
     return render(request, "app/contact_us.html", context=data)
 
 
 def about_us(request):
+    data = get_data()
     return render(request, "app/about_us.html", context=data)
 
 

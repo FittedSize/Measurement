@@ -1,3 +1,7 @@
 static_files/
 venv/
 *.toml
+debug.log
+.env
+.git*
+db.sqlite
