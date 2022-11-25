@@ -1,5 +1,5 @@
 from django.db import models
-from .utility import validate_positive
+from .utility import validate_positive, generate_key
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -9,7 +9,6 @@ class User(AbstractUser):
     BUSINESS = "BU"
     ACCOUNTS = [(INDIVIDUAL, "Individual"), (BUSINESS, "Business")]
     account_type = models.CharField(choices=ACCOUNTS, max_length=2, default=INDIVIDUAL)
-
     REQUIRED_FIELDS = ["first_name", "last_name", "account_type", "email"]
 
     @property
@@ -122,3 +121,11 @@ class Measurement(models.Model):
 
     def __str__(self):
         return f"Measurement: {self.email}"
+
+
+class Access(models.Model):
+    validator_key = models.SlugField(default=generate_key())
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def update_validator_key(self):
+        self.validator_key = generate_key()

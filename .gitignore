@@ -137,3 +137,4 @@ setup.sh
 functional_test.py
 setup_precommit.sh
 static_files/
+app_password.txt
