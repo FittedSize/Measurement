@@ -7,7 +7,7 @@ import json
 
 
 def generate_key():
-    return str(uuid4).replace("-", "")
+    return str(uuid4()).replace("-", "")
 
 
 def validate_positive(value):

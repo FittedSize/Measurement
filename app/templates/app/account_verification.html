@@ -1,5 +1,7 @@
+{% extends "app/layout.html" %}
+
 {% block title %}
-  <!-- Header not needed here -->
+verify account
 {% endblock %}
 
 {% block header %}
@@ -7,17 +9,22 @@
 {% endblock %}
 
 {% block main %}
-  <div class="container justify-content-center align-items-center">
+  <div class="container mt-5">
     {% if success %}
     <h3 class="text-success text-center">
       {{ success }}
     </h3>
-    <a href="{% url 'login_page' %}" class="btn">Proceed to login</a>
+    <div class="text-center">
+    <a href="{% url 'login_page' %}" class="btn btn-link">Proceed to login</a>
+    </div>
     {% elif danger %}
-    <h3 class="text-danger text-center">
+    <h3 class="text-danger text-center text-italics">
       {{ danger }}
     </h3>
-    <a href="{% url 'login_page' %}" class="btn">Proceed to login</a>
+    <div class="text-center">
+
+    <a href="{% url 'login_page' %}" class="btn btn-link">Proceed to login</a>
+    </div>
     {% endif %}
   </div>
 {% endblock %}
