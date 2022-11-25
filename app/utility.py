@@ -38,7 +38,7 @@ def authenticate_user(email, password):
         return None
 
 
-def get_confirmation_template(unique_key, base_url="http://127.0.0.1:8000/"):
+def get_confirmation_message(unique_key, base_url="http://127.0.0.1:8000/"):
     template = """
         <!doctype html>
         <html lang="en">

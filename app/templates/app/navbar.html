@@ -6,7 +6,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark p-2 bg-dark fs-5" id="headerNav">
   <div class="container-fluid">
-    <a class="navbar-brand d-block d-lg-none" href="#">
+    <a class="navbar-brand d-block d-lg-none" href="{% url home_page %}">
       <img src="{% static 'app/images/measureit_logo.png' %}" height="90" />
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,7 @@
           <a class="nav-link mx-2" href="#">Products</a>
         </li>
         <li class="nav-item d-none d-lg-block">
-          <a class="nav-link mx-2" href="#">
+          <a class="nav-link mx-2" href="{% url home_page %}">
             <img src="{% static 'app/images/measureit_logo.png' %}" height="90" />
           </a>
         </li>
@@ -34,18 +34,7 @@
             </button>
             </a>
         </li>
-        {% else %}
-        <li class="nav-item" id="logout">
-          <form method="POST" action="{% url logout_page %}">
-            <a href="" class="nav-link">
-              <button class="btn btn-danger mx-2">
-                Logout <i class="fa-solid fa-right-from-bracket"></i>
-              </button>
-            </a>
 
-            {% csrf_token %}
-          </form>
-        </li>
         {% endif %}
 
         <li class="nav-item dropdown">
@@ -57,6 +46,26 @@
             <li><a class="dropdown-item" href="{% url contact_us %}">Contact us</a></li>
           </ul>
         </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-success">
+              <i class="fa-solid fa-user"></i> : {{ user.username|title }}
+            </button>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li class="nav-item text-center" id="logout">
+          <form method="POST" action="{% url logout_page %}">
+              <button class="btn btn-danger btn-sm">
+                Logout
+              </button>
+            {% csrf_token %}
+          </form>
+        </li>
+          </ul>
+        </li>
+        {% endif %}
+
       </ul>
     </div>
   </div>

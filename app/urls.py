@@ -10,4 +10,5 @@ urlpatterns = [
     path("contact/", views.contact_us, name="contact_us"),
     path("user_page/", views.user_page, name="user_page"),
     path("register_user/", views.register_user, name="register_user"),
+    path("verify_account/<slug:token>/", views.verify_account, name="verify_account"),
 ]

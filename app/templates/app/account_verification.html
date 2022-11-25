@@ -1,0 +1,23 @@
+{% block title %}
+  <!-- Header not needed here -->
+{% endblock %}
+
+{% block header %}
+  {% include 'app/icon_heading.html' %}
+{% endblock %}
+
+{% block main %}
+  <div class="container justify-content-center align-items-center">
+    {% if success %}
+    <h3 class="text-success text-center">
+      {{ success }}
+    </h3>
+    <a href="{% url 'login_page' %}" class="btn">Proceed to login</a>
+    {% elif danger %}
+    <h3 class="text-danger text-center">
+      {{ danger }}
+    </h3>
+    <a href="{% url 'login_page' %}" class="btn">Proceed to login</a>
+    {% endif %}
+  </div>
+{% endblock %}

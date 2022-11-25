@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Trouser, User, Record, Measurement, Shirt
+from .models import Trouser, User, Record, Measurement, Shirt, AccountAccess
 from django.contrib.auth.admin import UserAdmin
 
 
@@ -25,4 +25,9 @@ class MeasurementAdmin(admin.ModelAdmin):
 
 @admin.register(Shirt)
 class ShirtAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(AccountAccess)
+class AccountAccessAdmin(admin.ModelAdmin):
     pass

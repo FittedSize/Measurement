@@ -123,9 +123,9 @@ class Measurement(models.Model):
         return f"Measurement: {self.email}"
 
 
-class Access(models.Model):
+class AccountAccess(models.Model):
     validator_key = models.SlugField(default=generate_key())
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user")
 
     def update_validator_key(self):
         self.validator_key = generate_key()

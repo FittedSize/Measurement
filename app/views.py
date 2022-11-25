@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.urls import reverse
 from .forms import LoginForm, UserCreationForm
-from .utility import get_error_list, authenticate_user
+from .utility import get_error_list, authenticate_user, get_confirmation_message
+from uuid import uuid4
+from .models import AccountAccess, User
 
 
 def get_data():
@@ -72,6 +75,25 @@ def logout_page(request):
     return redirect(reverse("home_page"))
 
 
+def verify_account(request, token):
+    if request.method == "GET":
+        data = get_data()
+        try:
+            account_access = AccountAccess.objects.get(validator_key=token)
+            user = account_access.user
+            user.is_active = True
+            user.save()
+
+            # the token becomes invalid after one usage
+            account_access.update_validator_key()
+
+            data["success"] = "Account Has Been Verified"
+            return render(request, "app/account_verification.html", context=data)
+        except AccountAccess.DoesNotExist:
+            data["danger"] = "Invalid Request"
+            return render(request, "app/account_verification.html", context=data)
+
+
 def register_user(request):
     page_data = get_data()
     page_data["form"] = UserCreationForm()
@@ -86,7 +108,38 @@ def register_user(request):
         form = UserCreationForm(data)
         if form.is_valid():
             form.save()
-            page_data["success"] = "Registration SucessFull"
+            # send verification email to user
+            email = data["email"]
+            user = User.objects.get(email=email)
+
+            # Make new Account inactive until Verified through
+            user.is_active = False
+            user.save()
+
+            if request.is_secure():
+                base_url = f"https://{request.get_host()}/"
+            else:
+                base_url = f"http://{request.get_host()}/"
+
+            base_url += "verify_account/"
+            unique_key = str(uuid4()).replace("-", "")
+            html_message = get_confirmation_message(unique_key, base_url)
+            account_access = AccountAccess.objects.create(
+                validator_key=unique_key, user=user
+            )
+            account_access.save()
+
+            send_mail(
+                "Account Confirmation",
+                "Click the link to verify your account",
+                from_email=None,
+                recipient_list=[email],
+                html_message=html_message,
+            )
+
+            page_data[
+                "success"
+            ] = "Registration SucessFull Check your Email for Verification"
 
             return render(request, "app/registration.html", context=page_data)
         page_data["danger"] = get_error_list(form.errors)
