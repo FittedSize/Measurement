@@ -22,6 +22,8 @@ def get_data():
         success=False,
         danger=False,
         is_home=False,
+        is_contact=False,
+        is_about=False,
     )
 
 
@@ -62,11 +64,15 @@ def login_page(request):
 
 def contact_us(request):
     data = get_data()
+    data["is_contact"] = True
+
     return render(request, "app/contact_us.html", context=data)
 
 
 def about_us(request):
     data = get_data()
+    data["is_about"] = True
+
     return render(request, "app/about_us.html", context=data)
 
 

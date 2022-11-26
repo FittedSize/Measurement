@@ -19,23 +19,17 @@
           <a class="nav-link mx-2 {% if is_home %} active {% endif %}" aria-current="page" href="{% url home_page %}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link mx-2" href="#">Products</a>
+          <a class="nav-link mx-2 {% if is_about %} active {% endif %}" href="{% url about_us %}">About</a>
         </li>
         <li class="nav-item d-none d-lg-block">
           <a class="nav-link mx-2" href="{% url home_page %}">
             <img src="{% static 'app/images/measureit_logo.png' %}" height="80" />
           </a>
         </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Company
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="{% url about_us %}">About Us</a></li>
-            <li><a class="dropdown-item" href="{% url contact_us %}">Contact us</a></li>
-          </ul>
+	<li class="nav-item">
+          <a class="nav-link mx-2 {% if is_contact %} active {% endif %}" href="{% url contact_us %}">Contact</a>
         </li>
+
         {% if user.is_authenticated %}
         <li class="nav-item dropdown">
           <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">

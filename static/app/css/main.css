@@ -2,24 +2,33 @@
 body{
   display: block;
   min-height: 100vh;
-  background-color: red;
+  background-image:  url("/static/app/images/background1.png");
+  background-repeat: no-repeat;
+  background-size:100% 100%;
+  position:relative;
 
 }
+
 #page-content{
-  display: block;
-  min-height: 100vh;
-  background-color: rgb(255, 255, 255);
+  margin-top:8rem;
+
 }
 
 #header-content{
-  position: sticky;
+  position: fixed;
+  width:100%;
+  z-index:5;
   top: 0;
   min-height: 10vh;
 }
 #main-content{
-  min-height: 85vh;
 }
 
+#page-footer{
+	position:absolute;
+	bottom:0px;
+	width:100%;
+}
 
 
 
@@ -27,4 +36,9 @@ body{
   .nav-item {
   line-height:80px;
   }
+}
+@media screen and (max-width:750px){
+	body{
+		background-size: auto 100%;
+	}
 }
