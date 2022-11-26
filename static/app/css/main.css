@@ -2,7 +2,7 @@
 body{
   display: block;
   min-height: 100vh;
-  background-image:  url("/static/app/images/background1.png");
+  background:  linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.5)), url("/static/app/images/background1.png");
   background-repeat: no-repeat;
   background-size:100% 100%;
   position:relative;
@@ -11,6 +11,7 @@ body{
 
 #page-content{
   margin-top:8rem;
+  margin-bottom: 10rem;
 
 }
 
