@@ -1,3 +1,28 @@
+
+body{
+  display: block;
+  min-height: 100vh;
+  background-color: red;
+
+}
+#page-content{
+  display: block;
+  min-height: 100vh;
+  background-color: rgb(255, 255, 255);
+}
+
+#header-content{
+  position: sticky;
+  top: 0;
+  min-height: 10vh;
+}
+#main-content{
+  min-height: 85vh;
+}
+
+
+
+
 @media screen and (min-width:992px){
   .nav-item {
   line-height:80px;

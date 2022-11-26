@@ -4,6 +4,16 @@ from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
 
 
+class BusinessAccountManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(account_type="BU")
+
+
+class IndividualAccountManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(account_type="IN")
+
+
 class User(AbstractUser):
     INDIVIDUAL = "IN"
     BUSINESS = "BU"
@@ -18,14 +28,18 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.is_business:
-            user_record = Record.objects.filter(owner=self)
+            user_record = Record.objects.filter(user=self)
             if user_record.count() == 1:
                 user_record = user_record[0]
             else:
                 user_record = None
 
-            user_record = user_record or Record.objects.create(owner=self)
+            user_record = user_record or Record.objects.create(user=self)
             user_record.save()
+
+    # objects = models.Manager()
+    # business = BusinessAccountManager()
+    # personal = IndividualAccountManager()
 
 
 class Shirt(models.Model):
@@ -106,7 +120,7 @@ class Trouser(models.Model):
 
 
 class Record(models.Model):
-    owner = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.owner.username.title()} Record"
@@ -115,9 +129,10 @@ class Record(models.Model):
 class Measurement(models.Model):
     email = models.EmailField(unique=True)
     phone_number = PhoneNumberField(blank=False)
-    trouser = models.OneToOneField(Trouser, on_delete=models.CASCADE, null=True)
-    shirt = models.OneToOneField(Shirt, on_delete=models.CASCADE)
-    record = models.ForeignKey(Record, on_delete=models.CASCADE)
+    trouser = models.OneToOneField(Trouser, on_delete=models.SET_NULL, null=True)
+    shirt = models.OneToOneField(Shirt, on_delete=models.SET_NULL, null=True)
+    record = models.ForeignKey(Record, on_delete=models.SET_NULL, null=True)
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f"Measurement: {self.email}"
@@ -129,3 +144,6 @@ class AccountAccess(models.Model):
 
     def update_validator_key(self):
         self.validator_key = generate_key()
+
+    def __str__(self):
+        return f"{self.user.username.title()} key"

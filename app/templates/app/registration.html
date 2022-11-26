@@ -4,11 +4,15 @@
 {% block title %}Registration Page{% endblock %}
 
 {% block header %}
-{% include "app/icon_heading.html" %}
+<!-- Navigation not needed-->
 {% endblock %}
 
 
+
+
+
 {% block main %}
+{% include "app/icon_heading.html" %}
 <div class="container">
   <h2 class="text-center text-info m-3">Registration Page</h2>
 </div>
@@ -71,7 +75,7 @@
     <a href="{% url 'login_page' %}" class="btn btn-auto  btn-success">Back to Login<i class="fa-solid fa-right-to-bracket"></i></a>
     </div>
 	<div class="col-auto text-center">
-	<button class="btn btn-auto  btn-primary">Submit </button>
+	<button class="btn btn-auto  btn-info text-white">Submit </button>
 	</div>
 	</div>
 	{% csrf_token %}
@@ -84,7 +88,7 @@
   const form = document.querySelector('form');
   form.addEventListener('submit', e =>{
     if (!form.checkValidity()){
-      e.preventDefault()
+      e.preventDefault();
     }
     form.classList.add('was-validated')
   } )

@@ -86,7 +86,7 @@ def verify_account(request, token):
 
             # the token becomes invalid after one usage
             account_access.update_validator_key()
-
+            account_access.save()
             data["success"] = "Account Has Been Verified"
             return render(request, "app/account_verification.html", context=data)
         except AccountAccess.DoesNotExist:
