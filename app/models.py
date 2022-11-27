@@ -37,6 +37,13 @@ class User(AbstractUser):
             user_record = user_record or Record.objects.create(user=self)
             user_record.save()
 
+        # create an AccountAccess for user if it does not exist
+        try:
+            account_access = AccountAccess.objects.get(user=self)
+        except AccountAccess.DoesNotExist:
+            account_access = AccountAccess(user=self)
+            account_access.save()
+
     # objects = models.Manager()
     # business = BusinessAccountManager()
     # personal = IndividualAccountManager()
@@ -140,7 +147,13 @@ class Measurement(models.Model):
 
 class AccountAccess(models.Model):
     validator_key = models.SlugField(default=generate_key())
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user")
+    password_reset_key = models.SlugField(default=generate_key())
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="account_access"
+    )
+
+    def update_password_reset_key(self):
+        self.password_retrieve_key = generate_key()
 
     def update_validator_key(self):
         self.validator_key = generate_key()

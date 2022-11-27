@@ -11,4 +11,8 @@ urlpatterns = [
     path("user_page/", views.user_page, name="user_page"),
     path("register_user/", views.register_user, name="register_user"),
     path("verify_account/<slug:token>/", views.verify_account, name="verify_account"),
+    path("account/forgot_password/", views.forgot_password, name="forgot_password"),
+    path(
+        "account/reset_password/<slug:token>/", views.reset_password, name="reset_password"
+    ),
 ]

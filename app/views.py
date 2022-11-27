@@ -3,8 +3,14 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.urls import reverse
-from .forms import LoginForm, UserCreationForm
-from .utility import get_error_list, authenticate_user, get_confirmation_message
+from django.contrib.auth import hashers
+from .forms import LoginForm, UserCreationForm, PasswordResetForm
+from .utility import (
+    get_error_list,
+    authenticate_user,
+    get_confirmation_message,
+    get_password_reset_message,
+)
 from uuid import uuid4
 from .models import AccountAccess, User
 
@@ -102,7 +108,6 @@ def verify_account(request, token):
 
 def register_user(request):
     page_data = get_data()
-    page_data["form"] = UserCreationForm()
 
     if request.method == "GET":
         if request.user.is_authenticated:
@@ -150,3 +155,66 @@ def register_user(request):
             return render(request, "app/registration.html", context=page_data)
         page_data["danger"] = get_error_list(form.errors)
         return render(request, "app/registration.html", context=page_data)
+
+
+def forgot_password(request):
+    context = get_data()
+    if request.method == "GET":
+        return render(request, "app/forgot_password.html", context=context)
+    elif request.method == "POST":
+        email = request.POST.get("email")
+        try:
+            user = User.objects.get(email=email)
+            account_access = AccountAccess.objects.get(user=user)
+            if request.is_secure():
+                base_url = f"https://{request.get_host()}/"
+            else:
+                base_url = f"http://{request.get_host()}/"
+
+            base_url += "account/forgot_password/"
+            unique_key = account_access.password_reset_key
+            html_message = get_password_reset_message(unique_key, base_url)
+
+            send_mail(
+                "Password Reset",
+                "Click the link below to reset your Password",
+                from_email=None,
+                recipient_list=[email],
+                html_message=html_message,
+            )
+
+            context["success"] = "Reset Link Sent to Your email"
+            return render(request, "app/forgot_password.html", context=context)
+
+        except User.DoesNotExist:
+            context["danger"] = [f"No User with {email}"]
+            return render(request, "app/forgot_password.html", context=context)
+
+
+def reset_password(request, token):
+    context = get_data()
+    if request.method == "GET":
+        try:
+            account_access = AccountAccess.objects.get(password_reset_key=token)
+            return render(request, "app/reset_password.html")
+        except AccountAccess.DoesNotExist:
+            context["danger"] = ["Invalid Request"]
+            return render(request, "app/invalid_request.html", context=context)
+
+    elif request.method == "POST":
+        try:
+            account_access = AccountAccess.objects.get(password_reset_key=token)
+            user = account_access.user
+            form = PasswordResetForm(request.POST)
+            if form.is_valid():
+                password = hashers.make_password(form.data.get("password1"))
+                user.password = password
+                user.save()
+                context["success"] = ["Password Reset Successfull"]
+                return render(request, "app/reset_password_status.html", context=context)
+            else:
+                context["danger"] = get_error_list(form.errors)
+                return render(request, "app/reset_password.html", context=context)
+        except AccountAccess.DoesNotExist:
+            context["danger"] = ["Invalid Request"]
+            return render(request, "app/invalid_request.html", context=context)
