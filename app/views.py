@@ -11,7 +11,6 @@ from .utility import (
     get_confirmation_message,
     get_password_reset_message,
 )
-from uuid import uuid4
 from .models import AccountAccess, User
 
 
@@ -59,6 +58,25 @@ def login_page(request):
                 password=request.POST["password"],
             )
             if user:
+                if not user.is_active:
+                    if request.is_secure():
+                        base_url = f"https://{request.get_host()}/"
+                    else:
+                        base_url = f"http://{request.get_host()}/"
+
+                    base_url += "verify_account/"
+                    unique_key = user.account_access.validator_key
+                    html_message = get_confirmation_message(unique_key, base_url)
+                    email = user.email
+                    send_mail(
+                        "Account Confirmation",
+                        "Click the link to verify your account",
+                        from_email=None,
+                        recipient_list=[email],
+                        html_message=html_message,
+                    )
+                    data["success"] = "Validation Required, please check your email"
+                    return render(request, "app/login.html", context=data)
                 login(request, user)
                 return redirect(reverse("user_page"))
             data["danger"] = ["Invalid Email or Password"]
@@ -133,12 +151,8 @@ def register_user(request):
                 base_url = f"http://{request.get_host()}/"
 
             base_url += "verify_account/"
-            unique_key = str(uuid4()).replace("-", "")
+            unique_key = user.account_access.validator_key
             html_message = get_confirmation_message(unique_key, base_url)
-            account_access = AccountAccess.objects.create(
-                validator_key=unique_key, user=user
-            )
-            account_access.save()
 
             send_mail(
                 "Account Confirmation",

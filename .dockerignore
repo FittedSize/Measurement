@@ -5,3 +5,4 @@ debug.log
 .env
 .git*
 db.sqlite
+static/

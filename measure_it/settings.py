@@ -107,8 +107,8 @@ DATABASES = {
 }
 
 if not DEBUG:
-    # CSRF_COOKIE_SECURE = True
-    # SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
     # update database for production
     DATABASES = {
         "default": {
