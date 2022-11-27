@@ -21,7 +21,7 @@
 </div>
 
 {% include 'app/notifications.html' %}
-<div class="container bg-info rounded mv-3">
+<div class="container mv-3">
 <form method="POST"  action="{% url 'login_page' %}" novalidate>
   <!-- Email input -->
   <div class="row justify-content-center mt-5  align-items-center">
@@ -43,13 +43,13 @@
     <div class="row mb-4 justify-content-center align-items-center">
       <div class="col-lg-4 col-sm-6 d-flex">
         <!-- Checkbox -->
-        <div class="form-check">
+        <div class="form-check text-info">
           <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
           <label class="form-check-label" for="form2Example31"> Remember me </label>
         </div>
         <div class="ms-auto">
           <!-- Simple link -->
-          <a href="{% url 'forgot_password' %}">Forgot password?</a>
+          <a class="text-info" href="{% url 'forgot_password' %}">Forgot password?</a>
         </div>
       </div>
 
@@ -65,7 +65,7 @@
 
   <!-- Register buttons -->
   <div class="text-center">
-	  <p>Not a member? <a href="{% url 'register_user' %}">Register</a></p>
+	  <p class="text-white">Not a member? <a class="text-info" href="{% url 'register_user' %}">Register</a></p>
 
   </div>
   {% csrf_token %}

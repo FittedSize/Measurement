@@ -171,7 +171,7 @@ def forgot_password(request):
             else:
                 base_url = f"http://{request.get_host()}/"
 
-            base_url += "account/forgot_password/"
+            base_url += "account/reset_password/"
             unique_key = account_access.password_reset_key
             html_message = get_password_reset_message(unique_key, base_url)
 
@@ -196,7 +196,8 @@ def reset_password(request, token):
     if request.method == "GET":
         try:
             account_access = AccountAccess.objects.get(password_reset_key=token)
-            return render(request, "app/reset_password.html")
+            context["reset_token"] = token
+            return render(request, "app/reset_password.html", context=context)
         except AccountAccess.DoesNotExist:
             context["danger"] = ["Invalid Request"]
             return render(request, "app/invalid_request.html", context=context)
@@ -210,7 +211,9 @@ def reset_password(request, token):
                 password = hashers.make_password(form.data.get("password1"))
                 user.password = password
                 user.save()
-                context["success"] = ["Password Reset Successfull"]
+                account_access.update_password_reset_key()
+                account_access.save()
+                context["success"] = "Password Reset Successfull"
                 return render(request, "app/reset_password_status.html", context=context)
             else:
                 context["danger"] = get_error_list(form.errors)

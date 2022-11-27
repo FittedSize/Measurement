@@ -179,7 +179,7 @@ PHONENUMBER_DEFAULT_REGION = "NG"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "https://measure-it.s3.amazonaws.com/static/"
 STATIC_DIR = Path.joinpath(BASE_DIR, "static")
 STATIC_ROOT = Path.joinpath(BASE_DIR, "static_files")
 STATICFILES_DIRS = [STATIC_DIR]
