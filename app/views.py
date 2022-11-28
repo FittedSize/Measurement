@@ -80,6 +80,7 @@ def login_page(request):
                 login(request, user)
                 return redirect(reverse("user_page"))
             data["danger"] = ["Invalid Email or Password"]
+            data["email"] = request.POST.get("email")
             return render(request, "app/login.html", context=data)
 
         data["danger"] = get_error_list(form.errors)
@@ -168,6 +169,8 @@ def register_user(request):
 
             return render(request, "app/registration.html", context=page_data)
         page_data["danger"] = get_error_list(form.errors)
+        page_data.update(request.POST.dict())
+
         return render(request, "app/registration.html", context=page_data)
 
 
@@ -235,3 +238,8 @@ def reset_password(request, token):
         except AccountAccess.DoesNotExist:
             context["danger"] = ["Invalid Request"]
             return render(request, "app/invalid_request.html", context=context)
+
+
+@login_required(login_url="/login_page")
+def add_measurement(request):
+    return render(request, "app/add_measurement.html")

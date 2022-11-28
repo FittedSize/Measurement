@@ -20,25 +20,25 @@
 	{% include "app/notifications.html" %}
 	<div class="row m-5 justify-content-center align-items-center p-3 ">
 	<div class="form-floating col-sm-8 col-md-6 col-lg-4 p-1">
-		<input class="form-control" type="text" placeholder="Username" id="username" name="username" required/>
+		<input class="form-control" type="text" placeholder="Username" id="username" name="username" {% if username %} value={{ username }} {% endif %} required/>
 		<label class="form-label text-secondary" for="username">Username
 		</label>
 	</div>
 
 	<div class="form-floating col-sm-8 col-md-6 col-lg-4  p-1">
-		<input class="form-control" type="text" placeholder="First Name" id="first_name" name="first_name" required/>
+		<input class="form-control" type="text" placeholder="First Name" id="first_name" name="first_name" {% if first_name %} value={{ first_name }} {% endif %} required/>
 		<label class="form-label text-secondary" for="first_name">Firstname
 		</label>
 	</div>
 
 	<div class="form-floating col-sm-8 col-md-6 col-lg-4  p-1">
-		<input class="form-control" type="text" placeholder="Last Name" id="last_name" name="last_name" required/>
+		<input class="form-control" type="text" placeholder="Last Name" id="last_name" name="last_name" {% if last_name %} value={{ last_name }} {% endif %} required/>
 		<label class="form-label text-secondary" for="last_name">Lastname
 		</label>
 	</div>
 
 	<div class="form-floating col-sm-8 col-md-6 col-lg-4 p-1">
-		<input class="form-control" type="email" placeholder="Email" id="email" name="email" required/>
+		<input class="form-control" type="email" placeholder="Email" id="email" name="email" {% if email %} value={{ email }} {% endif %} required/>
 		<label class="form-label text-secondary" for="email">Email
 		</label>
 	</div>
