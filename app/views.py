@@ -58,9 +58,29 @@ def login_page(request):
                 password=request.POST["password"],
             )
             if user:
+                if not user.is_active:
+                    if request.is_secure():
+                        base_url = f"https://{request.get_host()}/"
+                    else:
+                        base_url = f"http://{request.get_host()}/"
+
+                    base_url += "verify_account/"
+                    unique_key = user.account_access.validator_key
+                    html_message = get_confirmation_message(unique_key, base_url)
+                    email = user.email
+                    send_mail(
+                        "Account Confirmation",
+                        "Click the link to verify your account",
+                        from_email=None,
+                        recipient_list=[email],
+                        html_message=html_message,
+                    )
+                    data["success"] = "Validation Required, please check your email"
+                    return render(request, "app/login.html", context=data)
                 login(request, user)
                 return redirect(reverse("user_page"))
             data["danger"] = ["Invalid Email or Password"]
+            data["email"] = request.POST.get("email")
             return render(request, "app/login.html", context=data)
 
         data["danger"] = get_error_list(form.errors)
@@ -149,6 +169,8 @@ def register_user(request):
 
             return render(request, "app/registration.html", context=page_data)
         page_data["danger"] = get_error_list(form.errors)
+        page_data.update(request.POST.dict())
+
         return render(request, "app/registration.html", context=page_data)
 
 
@@ -216,3 +238,8 @@ def reset_password(request, token):
         except AccountAccess.DoesNotExist:
             context["danger"] = ["Invalid Request"]
             return render(request, "app/invalid_request.html", context=context)
+
+
+@login_required(login_url="/login_page")
+def add_measurement(request):
+    return render(request, "app/add_measurement.html")

@@ -27,7 +27,7 @@
   <div class="row justify-content-center mt-5  align-items-center">
     <div class="col-lg-4 col-sm-6 col-xs-10">
       <div class="form-floating m-3">
-        <input type="email" id="email" name="email" class="form-control" placeholder="Email" required/>
+	      <input type="email" id="email" name="email" class="form-control" placeholder="Email" {% if email %} value={{ email }} {% endif %}  required/>
         <label class="form-label text-secondary" for="email">Email</label>
       </div>
 
@@ -72,6 +72,10 @@
 </form>
 </div>
 {% endblock %}
+
+{% block footer %}
+{% endblock %}
+
 {% block script %}
 <script>
   const form = document.querySelector('form');

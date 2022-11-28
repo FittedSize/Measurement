@@ -107,8 +107,8 @@ DATABASES = {
 }
 
 if not DEBUG:
-    # CSRF_COOKIE_SECURE = True
-    # SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
     # update database for production
     DATABASES = {
         "default": {
@@ -181,7 +181,7 @@ PHONENUMBER_DEFAULT_REGION = "NG"
 
 STATIC_URL = "https://measure-it.s3.amazonaws.com/static/"
 # STATIC_DIR = Path.joinpath(BASE_DIR, "static")
-STATIC_ROOT = Path.joinpath(BASE_DIR, "static_files")
+# STATIC_ROOT = Path.joinpath(BASE_DIR, "static_files")
 # STATICFILES_DIRS = [STATIC_DIR]
 
 # Default primary key field type
