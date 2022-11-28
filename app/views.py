@@ -11,7 +11,6 @@ from .utility import (
     get_confirmation_message,
     get_password_reset_message,
 )
-from uuid import uuid4
 from .models import AccountAccess, User
 
 
@@ -133,12 +132,8 @@ def register_user(request):
                 base_url = f"http://{request.get_host()}/"
 
             base_url += "verify_account/"
-            unique_key = str(uuid4()).replace("-", "")
+            unique_key = user.account_access.validator_key
             html_message = get_confirmation_message(unique_key, base_url)
-            account_access = AccountAccess.objects.create(
-                validator_key=unique_key, user=user
-            )
-            account_access.save()
 
             send_mail(
                 "Account Confirmation",

@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    # "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -93,7 +93,7 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", None)
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "donotreply@mail.com")
 
 # used by whitenoise
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -180,9 +180,9 @@ PHONENUMBER_DEFAULT_REGION = "NG"
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "https://measure-it.s3.amazonaws.com/static/"
-STATIC_DIR = Path.joinpath(BASE_DIR, "static")
+# STATIC_DIR = Path.joinpath(BASE_DIR, "static")
 STATIC_ROOT = Path.joinpath(BASE_DIR, "static_files")
-STATICFILES_DIRS = [STATIC_DIR]
+# STATICFILES_DIRS = [STATIC_DIR]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
