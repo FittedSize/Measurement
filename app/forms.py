@@ -3,12 +3,26 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as gtl
 from django.contrib.auth import hashers
 from .utility import validate_password
-from .models import User
+from .models import User, Measurement
 
 
 class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField()
+
+
+class MeasurementCreationForm(forms.ModelForm):
+    class Meta:
+        model = Measurement
+        fields = ["phone_number", "email", "user"]
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        try:
+            User.objects.get(email=email)
+            raise ValidationError(gtl("Account with this email already exist"))
+        except User.DoesNotExist:
+            return email
 
 
 class PasswordResetForm(forms.Form):

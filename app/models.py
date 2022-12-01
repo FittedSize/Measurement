@@ -88,6 +88,9 @@ class Shirt(models.Model):
     )
     fitted = models.BooleanField(default=True, help_text="Do you want a fitted shirt")
 
+    def __str__(self):
+        return f"Shirt {self.id}"
+
 
 class Trouser(models.Model):
     length = models.DecimalField(
@@ -123,23 +126,25 @@ class Trouser(models.Model):
     fitted = models.BooleanField(default=True, help_text="Do you want a fitted trouser")
 
     def __str__(self):
-        return f"Trouser length: {self.length}"
+        return f"Trouser: {self.id}"
 
 
 class Record(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.owner.username.title()} Record"
+        return f"{self.user.username.title()} Record"
 
 
 class Measurement(models.Model):
     email = models.EmailField(unique=True)
     phone_number = PhoneNumberField(blank=False)
-    trouser = models.OneToOneField(Trouser, on_delete=models.SET_NULL, null=True)
-    shirt = models.OneToOneField(Shirt, on_delete=models.SET_NULL, null=True)
-    record = models.ForeignKey(Record, on_delete=models.SET_NULL, null=True)
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
+    trouser = models.OneToOneField(
+        Trouser, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    shirt = models.OneToOneField(Shirt, on_delete=models.SET_NULL, null=True, blank=True)
+    record = models.ForeignKey(Record, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"Measurement: {self.email}"

@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy as gtl
 from django.contrib.auth import get_user_model
 from uuid import uuid4
 import re
@@ -15,7 +15,7 @@ def generate_key():
 def validate_positive(value):
     if value < 0:
         raise ValidationError(
-            gettext_lazy("%(value)s is not a positive number"),
+            gtl("%(value)s is not a positive number"),
             params={"value": value},
         )
 
@@ -109,12 +109,12 @@ def get_password_reset_message(unique_key, base_url="http://127.0.0.1:8000/"):
 
 def validate_password(value):
     if len(value) < 8:
-        raise ValidationError(gettext_lazy("minimum password length is 8"))
+        raise ValidationError(gtl("minimum password length is 8"))
     elif not re.findall(f"[{digits}]", value):
-        raise ValidationError(gettext_lazy("Password must contain at least 1 digit"))
+        raise ValidationError(gtl("Password must contain at least 1 digit"))
     elif not re.findall(f"[{ascii_lowercase}]", value):
-        raise ValidationError(gettext_lazy("Password must include lowercase"))
+        raise ValidationError(gtl("Password must include lowercase"))
     elif not re.findall(f"[{ascii_uppercase}]", value):
-        raise ValidationError(gettext_lazy("Password must include uppercase"))
+        raise ValidationError(gtl("Password must include uppercase"))
     elif not re.findall(f"[{punctuation}]", value):
-        raise ValidationError(gettext_lazy("Password must include at least 1 symbol"))
+        raise ValidationError(gtl("Password must include at least 1 symbol"))

@@ -22,3 +22,7 @@ The following environment variables are required to be set
 'DB_HOST'='<DB_HOST>'
 'DB_PORT'='<DB_PORT>'
 'SECRET_KEY'='<SECRET_KEY>'
+
+### The Database Schema
+
+![DataBase Schema](/database_schema.png)

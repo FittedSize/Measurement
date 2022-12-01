@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from django.contrib.auth import hashers
 from .forms import LoginForm, UserCreationForm, PasswordResetForm
+
 from .utility import (
     get_error_list,
     authenticate_user,
@@ -35,6 +36,12 @@ def get_data():
 @login_required(login_url="/login_page")
 def user_page(request):
     data = get_data()
+    user = request.user
+    if user.is_business:
+        data["business"] = True
+
+        # get all names for this user
+
     return render(request, "app/user_page.html", context=data)
 
 
