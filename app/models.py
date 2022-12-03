@@ -2,16 +2,7 @@ from django.db import models
 from .utility import validate_positive, generate_key
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
-
-
-class BusinessAccountManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(account_type="BU")
-
-
-class IndividualAccountManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(account_type="IN")
+from django.urls import reverse
 
 
 class User(AbstractUser):
@@ -19,6 +10,7 @@ class User(AbstractUser):
     BUSINESS = "BU"
     ACCOUNTS = [(INDIVIDUAL, "Individual"), (BUSINESS, "Business")]
     account_type = models.CharField(choices=ACCOUNTS, max_length=2, default=INDIVIDUAL)
+    email = models.EmailField(unique=True)
     REQUIRED_FIELDS = ["first_name", "last_name", "account_type", "email"]
 
     @property
@@ -137,17 +129,31 @@ class Record(models.Model):
 
 
 class Measurement(models.Model):
-    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=50, blank=False)
+    last_name = models.CharField(max_length=50, blank=False)
+    email = models.EmailField(blank=True)
     phone_number = PhoneNumberField(blank=False)
     trouser = models.OneToOneField(
         Trouser, on_delete=models.SET_NULL, null=True, blank=True
     )
     shirt = models.OneToOneField(Shirt, on_delete=models.SET_NULL, null=True, blank=True)
-    record = models.ForeignKey(Record, on_delete=models.SET_NULL, null=True, blank=True)
+    record = models.ForeignKey(
+        Record,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="measurements",
+    )
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
 
+    class Meta:
+        unique_together = ("first_name", "last_name")
+
     def __str__(self):
-        return f"Measurement: {self.email}"
+        return f"Measurement: {self.first_name.title()},{self.last_name.title()}"
+
+    def get_absolute_url(self):
+        return reverse("measurement-detail", args=[str(self.id)])
 
 
 class AccountAccess(models.Model):

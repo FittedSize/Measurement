@@ -15,4 +15,9 @@ urlpatterns = [
     path(
         "account/reset_password/<slug:token>/", views.reset_password, name="reset_password"
     ),
+    path(
+        "measurement/<int:pk>/",
+        views.MeasurementDetailView.as_view(),
+        name="measurement-detail",
+    ),
 ]

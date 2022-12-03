@@ -1,18 +1,19 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.contrib.auth import hashers
 from .forms import LoginForm, UserCreationForm, PasswordResetForm
-
+from django.views.generic import DetailView
 from .utility import (
     get_error_list,
     authenticate_user,
     get_confirmation_message,
     get_password_reset_message,
 )
-from .models import AccountAccess, User
+from .models import AccountAccess, User, Measurement
 
 
 def get_data():
@@ -30,16 +31,31 @@ def get_data():
         is_home=False,
         is_contact=False,
         is_about=False,
+        is_user_page=False,
     )
+
+
+class MeasurementDetailView(LoginRequiredMixin, DetailView):
+    model = Measurement
+    query_set = Measurement.objects.all()
+    template_name = "app/measurement_detail.html"
+    context_object_name = "measurement_detail"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(get_data())
+        return context
 
 
 @login_required(login_url="/login_page")
 def user_page(request):
     data = get_data()
+    data["is_user_page"] = True
     user = request.user
     if user.is_business:
         data["business"] = True
-
+        user_record = user.record
+        data["measurements"] = user_record.measurements.all()
         # get all names for this user
 
     return render(request, "app/user_page.html", context=data)

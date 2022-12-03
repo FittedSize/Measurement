@@ -5,6 +5,69 @@
 
 {% block main %}
 <div class="container">
+  {% if user.is_business %}
+  <div class="row">
+    <div class="col-sm-12 col-lg-6"></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-lg-6 bg-info content-block rounded">
+      <h4 class="border border-secondary rounded p-2 text_native ">Customer Measurements</h4>
+      <button class="btn btn-primary" {% if measurements.count == 0 %}disabled{% endif %} data-bs-toggle="modal" data-bs-target="#modal">Find Measurement</button>
+
+      <div class="modal fade" id="modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <form action="" method="get">
+                <div class="input-group">
+                  <input type="text" class="form-control">
+                  <button type="submit" class="btn btn-success">Search</button>
+                </div>
+              </form>
+              <button class="btn-close" data-bs-toggle="modal" data-bs-target="modal"></button>
+            </div>
+            <div class="modal-body">
+              <h3>Search Result:</h3>
+              <div id="search-result">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+  <table class="table">
+    <thead>
+      <th>Phone Number</th>
+      <th>Name</th>
+    </thead>
+    <tbody>
+    {% for measurement in measurements %}
+
+      <td>{{ measurement.phone_number }}</td>
+      <td> <a href="{% url 'measurement-detail' measurement.id %}" class="btn btn-link">{{ measurement.first_name| upper }} {{ measurement.last_name}}</a></td>
+    </tbody>
+    {% empty %}
+      <h2 class="text-center"> Your Measurement Record is Empty</h2>
+    {% endfor %}
+  </table>
+
+  {% else %}
+  <h4>My Measurements</h4>
+  <table class="table">
+    <thead>
+      <th>Phone Number</th>
+      <th>Email</th>
+    </thead>
+    <tbody>
+      <td>08169725751</td>
+      <td>idris01@gmail.com</td>
+    </tbody>
+  </table>
+  {% endif %}
+    </div>
+  </div>
 
 </div>
 {% endblock %}

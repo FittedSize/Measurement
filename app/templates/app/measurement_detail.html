@@ -1,0 +1,33 @@
+{% extends 'app/layout.html' %}
+
+{% load static %}
+
+{% block title %}
+  measurement {{ measurement_detail.id }}
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+    <div class="content-block bg_content col-lg-4 g-0">
+      <h4 class="text-center">{{ measurement_detail.first_name }}{{ measurement_detail.last_name }}</h4>
+      {% if measurement_detail.trouser %}
+      <h5 class="text-center text-danger">Trouser</h5>
+        <table class="table">
+          <thead>
+            <th>Title</th>
+            <th>Value (inches) </th>
+          </thead>
+          <tbody>
+            <td>Length</td>
+            <td>{{ measurement_detail.trouser.length }}</td>
+          </tbody>
+
+        </table>
+      {% else %}
+      <h3>Add Trouser Data</h3>
+      {% endif %}
+  </div>
+  </div>
+</div>
+{% endblock %}

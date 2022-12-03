@@ -15,7 +15,7 @@ class TrouserAdmin(admin.ModelAdmin):
 
 @admin.register(Record)
 class RecordAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["user"]
 
 
 @admin.register(Measurement)

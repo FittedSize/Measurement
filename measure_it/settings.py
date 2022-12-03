@@ -180,9 +180,12 @@ PHONENUMBER_DEFAULT_REGION = "NG"
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "https://measure-it.s3.amazonaws.com/static/"
-# STATIC_DIR = Path.joinpath(BASE_DIR, "static")
-# STATIC_ROOT = Path.joinpath(BASE_DIR, "static_files")
-# STATICFILES_DIRS = [STATIC_DIR]
+
+if DEBUG:
+    STATIC_URL = "/static/"
+    STATIC_DIR = Path.joinpath(BASE_DIR, "static")
+    STATIC_ROOT = Path.joinpath(BASE_DIR, "static_files")
+    STATICFILES_DIRS = [STATIC_DIR]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
